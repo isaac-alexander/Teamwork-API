@@ -5,6 +5,7 @@ import com.alexander.teamwork_api.entity.Role;
 import com.alexander.teamwork_api.entity.User;
 import com.alexander.teamwork_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User register(RegisterRequest request) {
 
@@ -19,7 +21,7 @@ public class UserService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.EMPLOYEE)
                 .build();
 
