@@ -48,4 +48,17 @@ public class UserService {
         return jwtService.generateToken(user.getEmail());
     }
 
+    public User createEmployee(RegisterRequest request) {
+
+        User employee = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.EMPLOYEE)
+                .build();
+
+        return userRepository.save(employee);
+    }
+
 }
