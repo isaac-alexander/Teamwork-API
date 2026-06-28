@@ -2,8 +2,10 @@ package com.alexander.teamwork_api.service;
 
 import com.alexander.teamwork_api.dto.LoginRequest;
 import com.alexander.teamwork_api.dto.RegisterRequest;
+import com.alexander.teamwork_api.dto.UserResponse;
 import com.alexander.teamwork_api.entity.Role;
 import com.alexander.teamwork_api.entity.User;
+import com.alexander.teamwork_api.mapper.UserMapper;
 import com.alexander.teamwork_api.repository.UserRepository;
 import com.alexander.teamwork_api.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public User register(RegisterRequest request) {
+    public UserResponse register(RegisterRequest request) {
 
         User user = User.builder()
                 .firstName(request.getFirstName())
@@ -28,7 +30,9 @@ public class UserService {
                 .role(Role.EMPLOYEE)
                 .build();
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        return UserMapper.toUserResponse(savedUser);
     }
 
     public String login(LoginRequest request) {
@@ -48,7 +52,7 @@ public class UserService {
         return jwtService.generateToken(user.getEmail());
     }
 
-    public User createEmployee(RegisterRequest request) {
+    public UserResponse createEmployee(RegisterRequest request) {
 
         User employee = User.builder()
                 .firstName(request.getFirstName())
@@ -58,7 +62,9 @@ public class UserService {
                 .role(Role.EMPLOYEE)
                 .build();
 
-        return userRepository.save(employee);
+        User savedEmployee = userRepository.save(employee);
+
+        return UserMapper.toUserResponse(savedEmployee);
     }
 
 }

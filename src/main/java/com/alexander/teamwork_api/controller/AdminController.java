@@ -1,6 +1,7 @@
 package com.alexander.teamwork_api.controller;
 
 import com.alexander.teamwork_api.dto.RegisterRequest;
+import com.alexander.teamwork_api.dto.UserResponse;
 import com.alexander.teamwork_api.entity.User;
 import com.alexander.teamwork_api.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class AdminController {
     private final UserService userService;
 
     @PostMapping("/employees")
-    public User createEmployee(
+    public UserResponse createEmployee(
             @RequestBody RegisterRequest request) {
 
         return userService.createEmployee(request);

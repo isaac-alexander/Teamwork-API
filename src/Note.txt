@@ -24,3 +24,22 @@ Add JWT Dependencies
 Create JwtService
 add imports
 Create secret key(String) for test
+
+Why make the method static?
+Because the mapper doesn't store any data.
+
+@PrePersist and @PreUpdate
+Instead of writing article.setCreatedAt(LocalDateTime.now());
+
+inside every service method JPA does it automatically.
+
+When you save a new article with
+
+articleRepository.save(article);
+
+Spring automatically calls prePersist();
+
+When you edit an article
+articleRepository.save(article);
+
+Spring automatically calls preUpdate();
