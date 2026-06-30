@@ -56,4 +56,62 @@ public class ArticleService {
                 .toList();
     }
 
+    // Returns one article by its ID.
+    public ArticleResponse getArticleById(Long id) {
+
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        return ArticleMapper.toArticleResponse(article);
+    }
+
+    // Updates an article if it belongs to the logged-in employee.
+    public ArticleResponse updateArticle(
+            Long id,
+            ArticleRequest request,
+            Authentication authentication) {
+
+        // Gets the email of the logged-in user.
+        String email = authentication.getName();
+
+        // Finds the article.
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        // Checks if the logged-in user is the author.
+        if (!article.getAuthor().getEmail().equals(email)) {
+            throw new RuntimeException("You can only update your own article");
+        }
+
+        // Updates the article.
+        article.setTitle(request.getTitle());
+        article.setContent(request.getContent());
+
+        // Saves the updated article.
+        Article updatedArticle = articleRepository.save(article);
+
+        return ArticleMapper.toArticleResponse(updatedArticle);
+    }
+
+    // Deletes an article if it belongs to the logged-in employee.
+    public void deleteArticle(
+            Long id,
+            Authentication authentication) {
+
+        // Gets the email of the logged-in user.
+        String email = authentication.getName();
+
+        // Finds the article.
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+        // Checks if the logged-in user is the author.
+        if (!article.getAuthor().getEmail().equals(email)) {
+            throw new RuntimeException("You can only delete your own article");
+        }
+
+        // Deletes the article.
+        articleRepository.delete(article);
+    }
+
 }

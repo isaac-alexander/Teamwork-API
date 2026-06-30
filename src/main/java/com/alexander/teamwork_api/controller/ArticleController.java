@@ -32,4 +32,32 @@ public class ArticleController {
         return articleService.getAllArticles();
     }
 
+    // Returns one article using its ID.
+    @GetMapping("/{id}")
+    public ArticleResponse getArticleById(@PathVariable Long id) {
+
+        return articleService.getArticleById(id);
+    }
+
+    // Updates an article.
+    @PutMapping("/{id}")
+    public ArticleResponse updateArticle(
+            @PathVariable Long id,
+            @RequestBody ArticleRequest request,
+            Authentication authentication) {
+
+        return articleService.updateArticle(id, request, authentication);
+    }
+
+    // Deletes an article.
+    @DeleteMapping("/{id}")
+    public String deleteArticle(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        articleService.deleteArticle(id, authentication);
+
+        return "Article deleted successfully.";
+    }
+
 }
