@@ -59,7 +59,7 @@ public class Article {
         updatedAt = now;
     }
 
-//    Automatically runs whenever the articleis updated
+//    Automatically runs whenever the article is updated
 //    Only updatedAt changes.
 
     @PreUpdate
