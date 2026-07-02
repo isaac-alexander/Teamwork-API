@@ -2,10 +2,13 @@ package com.alexander.teamwork_api.service;
 
 import com.alexander.teamwork_api.dto.ArticleRequest;
 import com.alexander.teamwork_api.dto.ArticleResponse;
+import com.alexander.teamwork_api.dto.CommentResponse;
 import com.alexander.teamwork_api.entity.Article;
 import com.alexander.teamwork_api.entity.User;
 import com.alexander.teamwork_api.mapper.ArticleMapper;
+import com.alexander.teamwork_api.mapper.CommentMapper;
 import com.alexander.teamwork_api.repository.ArticleRepository;
+import com.alexander.teamwork_api.repository.CommentRepository;
 import com.alexander.teamwork_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -19,6 +22,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     // Creates a new article for the logged-in employee.
     public ArticleResponse createArticle(
@@ -42,7 +46,9 @@ public class ArticleService {
         // Saves the article.
         Article savedArticle = articleRepository.save(article);
 
-        return ArticleMapper.toArticleResponse(savedArticle);
+        return ArticleMapper.toArticleResponse(
+                savedArticle,
+                List.of());
     }
 
     // Returns all articles from newest to oldest.
@@ -52,7 +58,19 @@ public class ArticleService {
                 articleRepository.findAllByOrderByCreatedAtDesc();
 
         return articles.stream()
-                .map(ArticleMapper::toArticleResponse)
+                .map(article -> {
+
+                    List<CommentResponse> comments = commentRepository
+                            .findByArticleIdOrderByCreatedAtAsc(article.getId())
+                            .stream()
+                            .map(CommentMapper::toCommentResponse)
+                            .toList();
+
+                    return ArticleMapper.toArticleResponse(
+                            article,
+                            comments
+                    );
+                })
                 .toList();
     }
 
@@ -62,7 +80,16 @@ public class ArticleService {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
 
-        return ArticleMapper.toArticleResponse(article);
+        List<CommentResponse> comments = commentRepository
+                .findByArticleIdOrderByCreatedAtAsc(article.getId())
+                .stream()
+                .map(CommentMapper::toCommentResponse)
+                .toList();
+
+        return ArticleMapper.toArticleResponse(
+                article,
+                comments
+        );
     }
 
     // Updates an article if it belongs to the logged-in employee.
@@ -90,7 +117,16 @@ public class ArticleService {
         // Saves the updated article.
         Article updatedArticle = articleRepository.save(article);
 
-        return ArticleMapper.toArticleResponse(updatedArticle);
+        List<CommentResponse> comments = commentRepository
+                .findByArticleIdOrderByCreatedAtAsc(updatedArticle.getId())
+                .stream()
+                .map(CommentMapper::toCommentResponse)
+                .toList();
+
+        return ArticleMapper.toArticleResponse(
+                updatedArticle,
+                comments
+        );
     }
 
     // Deletes an article if it belongs to the logged-in employee.
