@@ -3,6 +3,9 @@ package com.alexander.teamwork_api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,6 +36,10 @@ public class Gif {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
+
+    // Stores all comments made on this GIF.
+    @OneToMany(mappedBy = "gif", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GifComment> comments = new ArrayList<>();
 
     // Automatically sets the upload time.
     @PrePersist
