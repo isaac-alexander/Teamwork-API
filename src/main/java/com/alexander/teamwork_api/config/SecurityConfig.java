@@ -10,8 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
 @Configuration
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -29,8 +31,20 @@ public class SecurityConfig {
                                 SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+
+                        // Public endpoints
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        // Admin endpoints
+                        .requestMatchers("/api/admin/**")
+                        .hasAuthority("ADMIN")
+
+                        // Everything else requires authentication
                         .anyRequest()
                         .authenticated()
                 )
