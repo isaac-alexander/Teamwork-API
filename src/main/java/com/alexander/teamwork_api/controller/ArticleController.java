@@ -6,6 +6,7 @@ import com.alexander.teamwork_api.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -26,10 +27,15 @@ public class ArticleController {
     }
 
     // Returns all articles from newest to oldest.
+    // Returns articles using pagination.
     @GetMapping
-    public List<ArticleResponse> getAllArticles() {
+    public Page<ArticleResponse> getAllArticles(
 
-        return articleService.getAllArticles();
+            @RequestParam(defaultValue = "0") int page,
+
+            @RequestParam(defaultValue = "5") int size) {
+
+        return articleService.getAllArticles(page, size);
     }
 
     // Returns one article using its ID.

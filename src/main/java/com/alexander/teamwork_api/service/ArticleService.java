@@ -11,6 +11,9 @@ import com.alexander.teamwork_api.repository.ArticleRepository;
 import com.alexander.teamwork_api.repository.CommentRepository;
 import com.alexander.teamwork_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -51,27 +54,16 @@ public class ArticleService {
                 List.of());
     }
 
-    // Returns all articles from newest to oldest.
-    public List<ArticleResponse> getAllArticles() {
+    // Returns articles ordered from newest to oldest.
+    public Page<ArticleResponse> getAllArticles(
+            int page,
+            int size) {
 
-        List<Article> articles =
-                articleRepository.findAllByOrderByCreatedAtDesc();
+        Pageable pageable = PageRequest.of(page, size);
 
-        return articles.stream()
-                .map(article -> {
-
-                    List<CommentResponse> comments = commentRepository
-                            .findByArticleIdOrderByCreatedAtAsc(article.getId())
-                            .stream()
-                            .map(CommentMapper::toCommentResponse)
-                            .toList();
-
-                    return ArticleMapper.toArticleResponse(
-                            article,
-                            comments
-                    );
-                })
-                .toList();
+        return articleRepository
+                .findAllByOrderByCreatedAtDesc(pageable)
+                .map(ArticleMapper::toArticleResponse);
     }
 
     // Returns one article by its ID.

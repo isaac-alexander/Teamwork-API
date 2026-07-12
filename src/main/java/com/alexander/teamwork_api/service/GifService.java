@@ -11,6 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 
@@ -51,14 +55,16 @@ public class GifService {
         return GifMapper.toGifResponse(savedGif);
     }
 
-    // Returns all GIFs ordered from newest to oldest.
-    public List<GifResponse> getAllGifs() {
+    // Returns GIFs ordered from newest to oldest.
+    public Page<GifResponse> getAllGifs(
+            int page,
+            int size) {
 
-        List<Gif> gifs = gifRepository.findAllByOrderByCreatedAtDesc();
+        Pageable pageable = PageRequest.of(page, size);
 
-        return gifs.stream()
-                .map(GifMapper::toGifResponse)
-                .toList();
+        return gifRepository
+                .findAllByOrderByCreatedAtDesc(pageable)
+                .map(GifMapper::toGifResponse);
     }
 
     // Returns one GIF using its ID.

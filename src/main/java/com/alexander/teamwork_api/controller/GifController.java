@@ -4,6 +4,7 @@ import com.alexander.teamwork_api.dto.GifRequest;
 import com.alexander.teamwork_api.dto.GifResponse;
 import com.alexander.teamwork_api.service.GifService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,18 +36,15 @@ public class GifController {
         return gifService.uploadGif(request, authentication);
     }
 
-    // Returns all GIFs ordered from newest to oldest.
+    // Returns GIFs using pagination.
     @GetMapping
-    public List<GifResponse> getAllGifs() {
+    public Page<GifResponse> getAllGifs(
 
-        return gifService.getAllGifs();
-    }
+            @RequestParam(defaultValue = "0") int page,
 
-    // Returns one GIF using its ID.
-    @GetMapping("/{id}")
-    public GifResponse getGifById(@PathVariable Long id) {
+            @RequestParam(defaultValue = "5") int size) {
 
-        return gifService.getGifById(id);
+        return gifService.getAllGifs(page, size);
     }
 
     // Returns an uploaded GIF file.

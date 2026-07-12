@@ -1,6 +1,8 @@
 package com.alexander.teamwork_api.repository;
 
 import com.alexander.teamwork_api.entity.Gif;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -8,6 +10,6 @@ import java.util.List;
 public interface GifRepository extends JpaRepository<Gif, Long> {
 
     // Returns all GIFs ordered from newest to oldest.
-    List<Gif> findAllByOrderByCreatedAtDesc();
+    Page<Gif> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
 }

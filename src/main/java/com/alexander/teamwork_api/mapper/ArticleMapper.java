@@ -28,4 +28,18 @@ public class ArticleMapper {
                 .build();
     }
 
+    // Converts an Article entity into an ArticleResponse without comments.
+    public static ArticleResponse toArticleResponse(Article article) {
+
+        return ArticleResponse.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .author(article.getAuthor().getEmail())
+                .comments(List.of())
+                .createdAt(article.getCreatedAt())
+                .updatedAt(article.getUpdatedAt())
+                .build();
+    }
+
 }
