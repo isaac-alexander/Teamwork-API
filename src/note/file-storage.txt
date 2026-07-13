@@ -1,0 +1,51 @@
+File Storage - Handles saving, loading and deleting uploaded GIF files.
+
+Purpose
+
+Stores uploaded GIF files inside the uploads folder.
+
+The database stores only the filename.
+
+The actual GIF file is stored on disk.
+
+FileStorageService - Contains file management logic.
+
+Methods
+
+saveFile() - Saves an uploaded GIF to the uploads folder.
+
+Creates a unique filename to prevent duplicate names.
+
+Returns the generated filename.
+
+loadFile() - Loads an uploaded GIF from the uploads folder.
+
+Returns the file as a Resource.
+
+deleteFile() - Deletes an uploaded GIF from the uploads folder.
+
+Returns true if the file was deleted successfully.
+
+Returns false if the file does not exist.
+
+Uploads Folder
+
+Created automatically when the first GIF is uploaded.
+
+Default Location
+
+project-folder/uploads/
+
+Example
+
+uploads/
+
+car.gif
+
+boat.gif
+
+Large files should not be stored directly inside the database.
+
+The database stores only the filename.
+
+The application loads the file whenever it is requested.

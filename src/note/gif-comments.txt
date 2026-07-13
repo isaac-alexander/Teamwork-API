@@ -1,0 +1,39 @@
+GIF Comments - Allows employees to comment on uploaded GIFs.
+
+GifComment Entity - Represents comments made on GIFs.
+
+Relationships
+
+Many GIF comments belong to one GIF.
+
+Many GIF comments belong to one employee.
+
+GifCommentRepository - Communicates with MySQL.
+
+Methods
+
+save() - Stores a GIF comment.
+
+findByGifIdOrderByCreatedAtAsc() - Returns all comments for a GIF.
+
+GifCommentService - Contains GIF comment business logic.
+
+Methods
+
+createGifComment() - Creates a comment for a GIF.
+
+getCommentsByGif() - Returns all comments belonging to a GIF.
+
+GifCommentMapper - Converts GifComment entities into GifCommentResponse DTOs.
+
+GifCommentController - Handles REST endpoints.
+
+POST /api/gifs/{id}/comments - Creates a GIF comment.
+
+GET /api/gifs/{id}/comments - Returns all comments for a GIF.
+
+Validation
+
+Only authenticated users can create GIF comments.
+
+Comments are linked to both the GIF and the logged-in employee.

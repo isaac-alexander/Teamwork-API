@@ -1,0 +1,63 @@
+Articles
+Allows employees to publish articles.
+
+
+Article Entity - Represents articles stored in the database.
+
+Fields
+
+id
+
+title
+
+content
+
+author
+
+createdAt
+
+updatedAt
+
+ArticleRepository - Communicates with MySQL.
+
+Methods
+
+save() - Stores an article.
+
+findById() - Finds an article.
+
+findAll() - Returns all articles.
+
+delete() - Deletes an article.
+
+findAllByOrderByCreatedAtDesc() - Returns articles ordered from newest to oldest.
+
+Supports pagination.
+
+ArticleService - Contains article business logic.
+
+Methods
+
+createArticle() - Creates a new article.
+
+getAllArticles() - Returns paginated articles.
+
+getArticleById() - Returns one article with comments.
+
+updateArticle() - Updates an existing article.
+
+deleteArticle() - Deletes an article.
+
+ArticleMapper - Converts Article entities into ArticleResponse DTOs.
+
+ArticleController - Handles REST endpoints.
+
+POST /api/articles - Creates an article.
+
+GET /api/articles - Returns all articles.
+
+GET /api/articles/{id} - Returns one article.
+
+PUT /api/articles/{id} - Updates an article.
+
+DELETE /api/articles/{id} - Deletes an article.

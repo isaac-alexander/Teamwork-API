@@ -1,0 +1,46 @@
+Swagger - Provides interactive API documentation.
+
+
+Allows you to test API endpoints directly from the browser.
+
+Displays all controllers and endpoints automatically.
+
+Swagger Dependency
+
+springdoc-openapi-starter-webmvc-ui
+
+Default URL
+
+http://localhost:8080/swagger-ui/index.html
+
+OpenAPI Documentation
+
+http://localhost:8080/v3/api-docs
+
+Features
+
+Displays every REST endpoint.
+
+Shows request parameters.
+
+Shows request bodies.
+
+Shows response bodies.
+
+Allows authenticated requests.
+
+Allows testing without Postman.
+
+JWT Authentication
+
+Click the Authorize button.
+
+Enter
+
+Bearer YOUR_JWT_TOKEN
+
+Example
+
+Bearer eyJhbGciOiJIUzM4NCJ9...
+
+Swagger will automatically send the JWT with every protected request.

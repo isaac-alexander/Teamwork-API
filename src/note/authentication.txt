@@ -1,0 +1,73 @@
+Authentication - Allows users to register and log into the application.
+
+
+AuthController - Handles authentication endpoints.
+
+Endpoints
+
+POST /api/auth/register
+
+Registers a new employee.
+
+POST /api/auth/login
+
+Authenticates a user.
+
+Returns a JWT token.
+
+UserService
+
+Contains the authentication business logic.
+
+Methods
+
+register() - Creates a new employee.
+
+Encrypts the password.
+
+Assigns the EMPLOYEE role.
+
+Saves the employee.
+
+Returns UserResponse.
+
+login() - Finds the user by email.
+
+Verifies the password.
+
+Generates a JWT token.
+
+Returns AuthResponse.
+
+DTOs
+
+RegisterRequest - Receives registration information.
+
+Fields
+
+firstName
+
+lastName
+
+email
+
+password
+
+LoginRequest
+
+Receives login credentials.
+
+Fields
+
+email
+
+password
+
+AuthResponse - Returns the generated JWT token.
+
+UserResponse - Returns user information without exposing the password.
+
+
+Authentication Process
+
+Register - Client - RegisterRequest - UserService - Password Encoding - Save User - UserResponse - Login - Client -LoginRequest - Find User - Verify Password - Generate JWT - AuthResponse

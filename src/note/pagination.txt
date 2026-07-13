@@ -1,0 +1,99 @@
+Pagination - Returns large datasets in smaller pages.
+
+Purpose
+
+Improves application performance.
+
+Prevents loading every record from the database.
+
+Page
+
+Represents one page of data.
+
+Contains
+
+content
+
+totalPages
+
+totalElements
+
+size
+
+number
+
+first
+
+last
+
+Pageable
+
+Specifies which page to return.
+
+Defines page number.
+
+Defines page size.
+
+PageRequest
+
+Creates a Pageable object.
+
+Example
+
+PageRequest.of(page, size)
+
+Repository
+
+findAllByOrderByCreatedAtDesc(Pageable pageable)
+
+Returns paginated records ordered from newest to oldest.
+
+Service
+
+Creates a Pageable object.
+
+Calls the repository.
+
+Maps Entity objects into Response DTOs.
+
+Controller
+
+Uses query parameters.
+
+Example
+
+GET /api/articles?page=0&size=5
+
+GET /api/gifs?page=1&size=3
+
+Example Response
+
+content
+
+List of records returned.
+
+totalPages
+
+Number of available pages.
+
+totalElements
+
+Total number of records.
+
+number
+
+Current page.
+
+size
+
+Number of records returned per page.
+
+Benefits
+
+Improves response time.
+
+Reduces memory usage.
+
+Improves user experience.
+
+Allows clients to request only the data they need.

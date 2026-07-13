@@ -1,0 +1,38 @@
+Comments - Allows employees to comment on articles.
+
+
+Comment Entity - Represents comments stored in the database.
+
+Relationships
+
+Many comments belong to one article.
+
+Many comments belong to one employee.
+
+CommentRepository - Communicates with MySQL.
+
+Methods
+
+save() - Stores a comment.
+
+findByArticleIdOrderByCreatedAtAsc() - Returns comments for an article.
+
+CommentService - Contains comment business logic.
+
+Methods
+
+createComment() - Creates a comment.
+
+getCommentsByArticle() - Returns all comments for an article.
+
+CommentMapper - Converts Comment entities into CommentResponse DTOs.
+
+CommentController - Handles REST endpoints.
+
+POST /api/articles/{id}/comments - Creates a comment.
+
+GET /api/articles/{id}/comments - Returns comments for an article.
+
+Validation - Only authenticated users can create comments.
+
+Comments are linked to both the article and the logged-in employee.

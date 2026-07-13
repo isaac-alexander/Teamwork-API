@@ -1,0 +1,75 @@
+GIFs - Allows employees to upload and share GIF images.
+
+Gif Entity - Represents uploaded GIFs stored in the database.
+
+Fields
+
+id
+
+title
+
+fileName
+
+author
+
+createdAt
+
+updatedAt
+
+Relationships
+
+Many GIFs belong to one employee.
+
+GifRepository - Communicates with MySQL.
+
+Methods
+
+save() - Stores a GIF.
+
+findById() - Finds a GIF.
+
+findAll() - Returns all GIFs.
+
+delete() - Deletes a GIF.
+
+findAllByOrderByCreatedAtDesc() - Returns GIFs ordered from newest to oldest.
+
+Supports pagination.
+
+GifService - Contains GIF business logic.
+
+Methods
+
+uploadGif() - Uploads a new GIF.
+
+getAllGifs() - Returns paginated GIFs.
+
+getGifById() - Returns a single GIF.
+
+getGifFile() - Returns the uploaded GIF file.
+
+deleteGif() - Deletes a GIF owned by the logged-in employee.
+
+Before deleting the database record, the uploaded file is deleted from the uploads folder.
+
+If the file does not exist, the database record is still deleted.
+
+GifMapper - Converts Gif entities into GifResponse DTOs.
+
+GifController - Handles REST endpoints.
+
+POST /api/gifs - Uploads a GIF.
+
+GET /api/gifs - Returns all GIFs.
+
+GET /api/gifs/{id} - Returns one GIF.
+
+GET /api/gifs/files/{fileName} - Displays an uploaded GIF.
+
+DELETE /api/gifs/{id} - Deletes a GIF.
+
+Validation
+
+Only authenticated users can upload GIFs.
+
+Employees can only delete GIFs they uploaded.

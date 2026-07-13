@@ -1,0 +1,69 @@
+Security - Spring Security protects the application's endpoints.
+
+Only authenticated users can access protected resources.
+
+JWT (JSON Web Token) -JWT is used instead of HTTP Sessions.
+
+After a successful login, the server generates a token. The client sends this token with every request.
+
+Example
+
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9wjwwwiiwdowjww2jIJIIHjss...
+
+The server validates the token before processing the request.
+
+SecurityConfig - Configures Spring Security.
+
+Disables CSRF because the project is a REST API.
+
+Uses STATELESS session management.
+
+Every request must contain a valid JWT.
+
+Allows public access to authentication endpoints.
+
+/api/auth/**
+
+Restricts admin endpoints.
+
+/api/admin/**
+
+Requires authentication for every other endpoint.
+
+JwtAuthenticationFilter - Runs before every protected request.
+
+Reads the Authorization header.
+
+Checks whether the request contains a Bearer token.
+
+Extracts the user's email from the token.
+
+Loads the user from the database.
+
+Validates the token.
+
+Creates an Authentication object.
+
+Stores the authenticated user inside Spring Security.
+
+JwtService - Responsible for creating and validating JWT tokens.
+
+Methods
+
+generateToken() - Creates a new JWT after a successful login.
+
+extractUsername() - Extracts the user's email from the token.
+
+isTokenValid() - Checks whether the token belongs to the correct user.
+
+Checks whether the token has expired.
+
+PasswordEncoder - Passwords are never stored as plain text.
+
+BCryptPasswordEncoder hashes passwords before saving them.
+
+During login, Spring compares the entered password with the stored hash.
+
+Authentication Flow
+
+Client - Login Request -UserService - Password Verification - Generate JWT - Return Token - Client Stores Token - Client Sends Token - JwtAuthenticationFilter - Authenticated Request

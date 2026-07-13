@@ -1,0 +1,62 @@
+Users and Roles - Controls what each user can access.
+
+Role Enum - Defines available roles.
+
+ADMIN - Has full access to the system.
+
+EMPLOYEE - Can create articles, GIFs and comments.
+
+User Entity - Represents employees inside the database.
+
+Implements UserDetails.
+
+Allows Spring Security to authenticate users.
+
+Fields
+
+id
+
+Primary key.
+
+firstName
+
+Employee first name.
+
+lastName
+
+Employee last name.
+
+email
+
+Unique login credential.
+
+password
+
+Encrypted password.
+
+role
+
+User role.
+
+Methods
+
+getAuthorities() - Returns the user's role.
+
+getUsername() - Returns the email.
+
+isAccountNonExpired() - Returns true.
+
+isAccountNonLocked() - Returns true.
+
+isCredentialsNonExpired() - Returns true.
+
+isEnabled() - Returns true.
+
+Admin Endpoints - Accessible only by ADMIN users.
+
+Configured inside SecurityConfig.
+
+Example
+
+.requestMatchers("/api/admin/**")
+.hasAuthority("ADMIN")
