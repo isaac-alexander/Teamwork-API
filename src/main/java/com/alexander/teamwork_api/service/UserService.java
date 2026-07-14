@@ -5,6 +5,8 @@ import com.alexander.teamwork_api.dto.RegisterRequest;
 import com.alexander.teamwork_api.dto.UserResponse;
 import com.alexander.teamwork_api.entity.Role;
 import com.alexander.teamwork_api.entity.User;
+import com.alexander.teamwork_api.exception.InvalidCredentialsException;
+import com.alexander.teamwork_api.exception.UserNotFoundException;
 import com.alexander.teamwork_api.mapper.UserMapper;
 import com.alexander.teamwork_api.repository.UserRepository;
 import com.alexander.teamwork_api.security.JwtService;
@@ -38,7 +40,7 @@ public class UserService {
     public String login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         boolean matches = passwordEncoder.matches(
                 request.getPassword(),
@@ -46,7 +48,7 @@ public class UserService {
         );
 
         if (!matches) {
-            throw new RuntimeException("Invalid email or password");
+            throw new InvalidCredentialsException("Invalid email or password");
         }
 
         return jwtService.generateToken(user.getEmail());

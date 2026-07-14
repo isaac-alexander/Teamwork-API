@@ -5,6 +5,8 @@ import com.alexander.teamwork_api.dto.CommentResponse;
 import com.alexander.teamwork_api.entity.Article;
 import com.alexander.teamwork_api.entity.Comment;
 import com.alexander.teamwork_api.entity.User;
+import com.alexander.teamwork_api.exception.ArticleNotFoundException;
+import com.alexander.teamwork_api.exception.UserNotFoundException;
 import com.alexander.teamwork_api.mapper.CommentMapper;
 import com.alexander.teamwork_api.repository.ArticleRepository;
 import com.alexander.teamwork_api.repository.CommentRepository;
@@ -32,11 +34,11 @@ public class CommentService {
 
         // Finds the logged-in user.
         User author = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Finds the article being commented on.
         Article article = articleRepository.findById(articleId)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new ArticleNotFoundException("Article not found"));
 
         // Creates a new comment.
         Comment comment = Comment.builder()

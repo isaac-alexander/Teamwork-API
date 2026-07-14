@@ -5,6 +5,9 @@ import com.alexander.teamwork_api.dto.ArticleResponse;
 import com.alexander.teamwork_api.dto.CommentResponse;
 import com.alexander.teamwork_api.entity.Article;
 import com.alexander.teamwork_api.entity.User;
+import com.alexander.teamwork_api.exception.ArticleNotFoundException;
+import com.alexander.teamwork_api.exception.UnauthorizedActionException;
+import com.alexander.teamwork_api.exception.UserNotFoundException;
 import com.alexander.teamwork_api.mapper.ArticleMapper;
 import com.alexander.teamwork_api.mapper.CommentMapper;
 import com.alexander.teamwork_api.repository.ArticleRepository;
@@ -37,7 +40,7 @@ public class ArticleService {
 
         // Finds the logged-in user.
         User author = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Creates a new article.
         Article article = Article.builder()
@@ -70,7 +73,7 @@ public class ArticleService {
     public ArticleResponse getArticleById(Long id) {
 
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new ArticleNotFoundException("Article not found"));
 
         List<CommentResponse> comments = commentRepository
                 .findByArticleIdOrderByCreatedAtAsc(article.getId())
@@ -95,11 +98,11 @@ public class ArticleService {
 
         // Finds the article.
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new ArticleNotFoundException("Article not found"));
 
         // Checks if the logged-in user is the author.
         if (!article.getAuthor().getEmail().equals(email)) {
-            throw new RuntimeException("You can only update your own article");
+            throw new UnauthorizedActionException("You can only update your own article");
         }
 
         // Updates the article.
@@ -131,11 +134,11 @@ public class ArticleService {
 
         // Finds the article.
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Article not found"));
+                .orElseThrow(() -> new ArticleNotFoundException("Article not found"));
 
         // Checks if the logged-in user is the author.
         if (!article.getAuthor().getEmail().equals(email)) {
-            throw new RuntimeException("You can only delete your own article");
+            throw new UnauthorizedActionException("You can only delete your own article");
         }
 
         // Deletes the article.

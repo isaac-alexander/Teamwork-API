@@ -1,0 +1,20 @@
+Create custom exceptions.
+Create a standard error response DTO.
+Create a global exception handler.
+Replace every RuntimeException with the appropriate custom exception.
+Test each exception in Postman.
+
+
+1. First Create the exceptions package
+com.alexander.teamwork_api.exception
+
+2. inside it create files for exceptions
+
+- UserNotFoundException.java - Thrown when a user cannot be found.
+- ArticleNotFoundException.java - Thrown when an article cannot be found.
+- GifNotFoundException.java - Thrown when a GIF cannot be found.
+- CommentNotFoundException.java - Thrown when a comment cannot be found.
+- UnauthorizedActionException.java - Thrown when a user tries to perform an action they are not allowed to perform.
+- InvalidCredentialsException.java - Thrown when login credentials are incorrect.
+
+3. Create a global error response DTO and a @RestControllerAdvice to handle all exceptions

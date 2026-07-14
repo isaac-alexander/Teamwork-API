@@ -4,6 +4,9 @@ import com.alexander.teamwork_api.dto.GifRequest;
 import com.alexander.teamwork_api.dto.GifResponse;
 import com.alexander.teamwork_api.entity.Gif;
 import com.alexander.teamwork_api.entity.User;
+import com.alexander.teamwork_api.exception.GifNotFoundException;
+import com.alexander.teamwork_api.exception.UnauthorizedActionException;
+import com.alexander.teamwork_api.exception.UserNotFoundException;
 import com.alexander.teamwork_api.mapper.GifMapper;
 import com.alexander.teamwork_api.repository.GifRepository;
 import com.alexander.teamwork_api.repository.UserRepository;
@@ -36,7 +39,7 @@ public class GifService {
 
         // Finds the logged-in user.
         User author = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Saves the uploaded GIF file.
         String fileName = fileStorageService.saveFile(request.getGif());
@@ -71,7 +74,7 @@ public class GifService {
     public GifResponse getGifById(Long id) {
 
         Gif gif = gifRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("GIF not found"));
+                .orElseThrow(() -> new GifNotFoundException("GIF not found"));
 
         return GifMapper.toGifResponse(gif);
     }
@@ -92,11 +95,11 @@ public class GifService {
 
         // Finds the GIF.
         Gif gif = gifRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("GIF not found"));
+                .orElseThrow(() -> new GifNotFoundException("GIF not found"));
 
         // Checks if the logged-in user owns the GIF.
         if (!gif.getAuthor().getEmail().equals(email)) {
-            throw new RuntimeException("You can only delete your own GIF");
+            throw new UnauthorizedActionException("You can only delete your own GIF");
         }
 
         // Attempts to delete the uploaded GIF file.

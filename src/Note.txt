@@ -43,10 +43,3 @@ When you edit an article
 articleRepository.save(article);
 
 Spring automatically calls preUpdate();
-
-GifCommentRepository
-GifCommentRequest
-GifCommentResponse
-GifCommentMapper
-GifCommentService
-GifCommentController

@@ -5,6 +5,8 @@ import com.alexander.teamwork_api.dto.GifCommentResponse;
 import com.alexander.teamwork_api.entity.Gif;
 import com.alexander.teamwork_api.entity.GifComment;
 import com.alexander.teamwork_api.entity.User;
+import com.alexander.teamwork_api.exception.GifNotFoundException;
+import com.alexander.teamwork_api.exception.UserNotFoundException;
 import com.alexander.teamwork_api.mapper.GifCommentMapper;
 import com.alexander.teamwork_api.repository.GifCommentRepository;
 import com.alexander.teamwork_api.repository.GifRepository;
@@ -34,11 +36,11 @@ public class GifCommentService {
 
         // Find the user
         User author = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Find the GIF being commented on
         Gif gif = gifRepository.findById(gifId)
-                .orElseThrow(() -> new RuntimeException("GIF not found"));
+                .orElseThrow(() -> new GifNotFoundException("GIF not found"));
 
         // Create comment entity
         GifComment comment = GifComment.builder()
@@ -59,7 +61,7 @@ public class GifCommentService {
 
         // Ensure GIF exists
         gifRepository.findById(gifId)
-                .orElseThrow(() -> new RuntimeException("GIF not found"));
+                .orElseThrow(() -> new GifNotFoundException("GIF not found"));
 
         // Fetch comments sorted by oldest first
         List<GifComment> comments =
