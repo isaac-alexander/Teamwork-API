@@ -25,9 +25,9 @@ public class Gif {
     @Column(nullable = false)
     private String title;
 
-    // Name of the uploaded GIF file.
-    @Column(nullable = false)
-    private String fileName;
+    private String imageUrl;
+
+    private String publicId;
 
     // Date the GIF was uploaded.
     private LocalDateTime createdAt;

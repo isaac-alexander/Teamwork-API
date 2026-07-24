@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
-public class ErrorResponse {
+public class ErrorResponse<T>{
 
     // Indicates whether the request was successful.
     private boolean success;
 
     // Describes what went wrong.
-    private String message;
+    private T message;
 
     // HTTP status code.
     private int status;

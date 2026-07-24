@@ -3,6 +3,7 @@ package com.alexander.teamwork_api.controller;
 import com.alexander.teamwork_api.dto.CommentRequest;
 import com.alexander.teamwork_api.dto.CommentResponse;
 import com.alexander.teamwork_api.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CommentController {
     @PostMapping("/{articleId}/comments")
     public CommentResponse addComment(
             @PathVariable Long articleId,
-            @RequestBody CommentRequest request,
+            @Valid @RequestBody CommentRequest request,
             Authentication authentication) {
 
         return commentService.addComment(

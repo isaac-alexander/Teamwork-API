@@ -2,8 +2,8 @@ package com.alexander.teamwork_api.controller;
 
 import com.alexander.teamwork_api.dto.RegisterRequest;
 import com.alexander.teamwork_api.dto.UserResponse;
-import com.alexander.teamwork_api.entity.User;
 import com.alexander.teamwork_api.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ public class AdminController {
 
     @PostMapping("/employees")
     public UserResponse createEmployee(
-            @RequestBody RegisterRequest request) {
+           @Valid @RequestBody RegisterRequest request) {
 
         return userService.createEmployee(request);
     }

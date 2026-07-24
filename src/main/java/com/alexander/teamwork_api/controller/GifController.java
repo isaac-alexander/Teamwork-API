@@ -13,65 +13,61 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/gifs")
 @RequiredArgsConstructor
 public class GifController {
-
-    private final GifService gifService;
-
-    // Uploads a new GIF.
-    @PostMapping(consumes = "multipart/form-data")
-    public GifResponse uploadGif(
-            @RequestParam String title,
-            @RequestParam MultipartFile gif,
-            Authentication authentication) {
-
-        GifRequest request = new GifRequest();
-        request.setTitle(title);
-        request.setGif(gif);
-
-        return gifService.uploadGif(request, authentication);
-    }
-
-    // Returns GIFs using pagination.
-    @GetMapping
-    public Page<GifResponse> getAllGifs(
-
-            @RequestParam(defaultValue = "0") int page,
-
-            @RequestParam(defaultValue = "5") int size) {
-
-        return gifService.getAllGifs(page, size);
-    }
-
-    // Returns an uploaded GIF file.
-    @GetMapping("/files/{fileName}")
-    public ResponseEntity<Resource> getGifFile(
-            @PathVariable String fileName) {
-
-        Resource resource = gifService.getGifFile(fileName);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_GIF)
-                .header(
-                        HttpHeaders.CONTENT_DISPOSITION,
-                        "inline; filename=\"" + fileName + "\""
-                )
-                .body(resource);
-    }
-
-    // Deletes a GIF.
-    @DeleteMapping("/{id}")
-    public String deleteGif(
-            @PathVariable Long id,
-            Authentication authentication) {
-
-        gifService.deleteGif(id, authentication);
-
-        return "GIF deleted successfully.";
-    }
+//
+//    private final GifService gifService;
+//
+//    // Uploads a new GIF.
+//    @PostMapping(consumes = "multipart/form-data")
+//    public GifResponse uploadGif(
+//            @RequestParam String title,
+//            @RequestParam MultipartFile gif,
+//            Authentication authentication) {
+//
+//        GifRequest request = new GifRequest(title, gif);
+//
+//        return gifService.uploadGif(request, authentication);
+//    }
+//
+//    // Returns GIFs using pagination.
+//    @GetMapping
+//    public Page<GifResponse> getAllGifs(
+//
+//            @RequestParam(defaultValue = "0") int page,
+//
+//            @RequestParam(defaultValue = "5") int size) {
+//
+//        return gifService.getAllGifs(page, size);
+//    }
+//
+//    // Returns an uploaded GIF file.
+//    @GetMapping("/files/{fileName}")
+//    public ResponseEntity<Resource> getGifFile(
+//            @PathVariable String fileName) {
+//
+//        Resource resource = gifService.getGifFile(fileName);
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.IMAGE_GIF)
+//                .header(
+//                        HttpHeaders.CONTENT_DISPOSITION,
+//                        "inline; filename=\"" + fileName + "\""
+//                )
+//                .body(resource);
+//    }
+//
+//    // Deletes a GIF.
+//    @DeleteMapping("/{id}")
+//    public String deleteGif(
+//            @PathVariable Long id,
+//            Authentication authentication) {
+//
+//        gifService.deleteGif(id, authentication);
+//
+//        return "GIF deleted successfully.";
+//    }
 
 }
